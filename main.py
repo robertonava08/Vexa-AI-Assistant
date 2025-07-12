@@ -44,6 +44,8 @@ tts_client = tts.TextToSpeechClient()
 try:
     while True:
        
+       p = pyaudio.PyAudio()
+       
        stream = p.open(format=FORMAT,
                channels=CHANNELS,
                rate=RATE,
@@ -120,7 +122,7 @@ try:
 
 
        conversation = [
-            {"role": "system", "content": "You are Vexa a helpful, quirky, sweet, super energetic but somewhat edgy assistant assistant. Answer the users questions directly and playfully."},
+            {"role": "system", "content": "You are Vexa a helpful, quirky, sweet, super energetic but somewhat edgy assistant assistant. Answer the users questions directly and playfully if your name is slightly mispronounced ignore it."},
             {
             "role" : "user",
             "content" : spoken_input
@@ -173,5 +175,5 @@ try:
 
 except KeyboardInterrupt:
     print("\nShutting down.")
-finally:
-    p.terminate()
+#finally:
+    #p.terminate()
