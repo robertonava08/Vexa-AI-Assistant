@@ -20,7 +20,7 @@ from pvrecorder import PvRecorder
 env_path = "/home/robertonava08/Desktop/Vexa-AI-Assistant/.env"#load what is stored in my .env file
 load_dotenv(dotenv_path=env_path)
 
-# Set the audio configurations using ppyaudio
+# Set the audio configurations using pyaudio
 CHUNK = 1024
 FORMAT = pyaudio.paInt16
 CHANNELS = 1
@@ -51,28 +51,29 @@ keyword_path = "/home/robertonava08/Desktop/Vexa-AI-Assistant/Hey-Vex_en_raspber
 porcupine = pvporcupine.create(        
   access_key=access_key,        
   keyword_paths=[keyword_path])
+
 recoder = PvRecorder(device_index=-1, frame_length=porcupine.frame_length)
 recoder.start()
+
+convo_history =  [
+    {"role": "system", "content": "You are Vexa, a helpful, professional, sweet, and well spoken assistant,  you remember things the user has said previously in the conversation."
+    " Answer the user's questions directly if your name is slightly mispronounced, ignore it. When you are responding to the user ignore reading back things like :, *, symbols. You give detailed descriptions when asked technical questions but not super long unless asked for."}
+]
 
 
 while True:
    
+   # Continously listen for wake word until it is heard
    pcm = recoder.read()
    result = porcupine.process(pcm)
 
+   # Only if wake word is detected does logic for AI Assistant turn on 
    if result >= 0:
       print("Wake word detected")
       recoder.stop()
 
       try:
          while True:
-            
-            #pcm = recoder.read() # listens to for audio
-            #result = porcupine.process(pcm) # detects if match to wake word
-
-            #if result >= 0:
-               #print("Wake word detected!")
-               #recoder.stop()  # This stops the microphone from recording further
             
             # Reanitialize pyaudio everytime the loop begins
             p = pyaudio.PyAudio()
@@ -88,7 +89,8 @@ while True:
 
                   
             frames = []
-                  
+
+            # Currently only records for 8 seconds will change to record for as long as user is speaking     
             for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
                         data = stream.read(CHUNK)
                         frames.append(data)
@@ -142,27 +144,26 @@ while True:
             # Combine all transcribed text into one string
             spoken_input = " ".join([segment.text for segment in segments])
 
-
-
-
             print(f"Transcribed input: {spoken_input}")
+
+            convo_history.append({"role": "user", "content": spoken_input})
 
 
             # Message section is what you are telling Vexa
-            message =  {"role": "user", "content": spoken_input}
+            #message =  {"role": "user", "content": spoken_input}
 
-
+            """
             conversation = [
-                  {"role": "system", "content": "You are Vexa a helpful, quirky, sweet, super energetic but somewhat edgy assistant assistant. Answer the users questions directly and playfully if your name is slightly mispronounced ignore it."},
+                  {"role": "system", "content": "You are Vexa a helpful, professional, sweet, and well spoken assistant. Answer the users questions directly if your name is slightly mispronounced ignore it."},
                   {
                   "role" : "user",
                   "content" : spoken_input
                   }
                   ]
-                  
+              """    
             completion = client.chat.completions.create(
                   model="gpt-3.5-turbo",
-                  messages=conversation
+                  messages=convo_history
                )
 
 
@@ -173,7 +174,15 @@ while True:
             # Print it out
             print(f"Vexa: {assistant_response}")
 
-            
+
+            convo_history.append({"role": "assistant", "content": assistant_response})
+
+
+
+            MAX_HISTORY = 25
+            convo_history = [convo_history[0]] + convo_history[-MAX_HISTORY:]
+
+
             # This sets the text input that we want to be synthesized 
             synthesis_input = tts.SynthesisInput(text=assistant_response)
 

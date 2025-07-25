@@ -3,7 +3,7 @@ AI voice assistant designed to interact with users in a natural and intuitive wa
 
 ## Table of Contents
 - [Installation](#installation)
-- [Usage](#usage)\
+- [Usage](#usage)
 - [Features](#features)
 - [Contributing](#contributing)
 - [License](#license)
