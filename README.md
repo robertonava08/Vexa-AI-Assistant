@@ -60,3 +60,6 @@ AI voice assistant designed to interact with users in a natural and intuitive wa
         Now when Vexa will only respond with the wake word when initially turned on and even after "shutting it down"
 * 07/25/25
     -- Today's stage of development will involve adding short-term memory for a natural conversation flow and friendly user experience
+* 07/26/25
+    -- Updated Vexa so that she no longer only listens for 8 seconds but listens until user is done speaking (waits 1.75 of silence to respond).
+       I have deleted the section that plays back the user audio to reduce the responce time of Vexa (it worked) 
