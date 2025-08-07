@@ -13,27 +13,51 @@ AI voice assistant designed to interact with users in a natural and intuitive wa
 
 
 ### Installation
-
-
+* Install Visual Studio Code IDE 
+* Install Python 3
+    -- Verify with: python3 --version
+* Install Python Extension for VS Code
+* Create and activate a virtual environment (Linux)
+  In your project directory:
+    -- python3 -m venv venv 
+    -- source venv/bin/activate
+* Install required dependencies (libraries liested at the top of script)
+* Create a .env file and insert your keys
+  In project folder add: 
+    -- OPENAI_API_KEY=your_openai_api_key
+    -- ACESS_KEY=your_picovoice_access_key
+* Press "run" button or run manually 
 
 
 ### Usage
-
-
+* Run script 
+* Speak the wake word "Hey Vexa." 
+* Speak a question or command
+* Command + C 2x to terminate Vexa
 
 ### Features
+* Always-on Wake Word Detection
+    - Continously listens for the wake word using a real-time audio stream with Picovoice Porcupine
 
+* Natural Speech Recognition
+    - Transcribes spoken input using Faster-Whisper for fast and accurate speech-to-text conversion
 
+* Conversational Short-Term Memory
+    - Remembers recent interactions using OpenAI's chat history to maintain natural conversation flow
 
-### Contributing
+* Lifelike Voice Output
+    - Uses Google Cloud Text-to-Speech to respond with a realistic and pleasant voice
 
+* Seamless Audio Pipeline 
+    - Modular system for capturing audio, generating responses, and playing voice output in real time
 
 
 ### License
+This project is licensed under the [MIT License](./LICENSE)
+Feel free to use or modify the code -- just make sure to give credit. 
 
 
-
-### Screenshots
+### Videos
 
 
 ### Documentation Used
