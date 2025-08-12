@@ -59,6 +59,8 @@ Feel free to use or modify the code -- just make sure to give credit.
 
 ### Videos
 
+Click link to watch a short demo video: https://youtube.com/shorts/uBmfoppIMZI 
+
 
 ### Documentation Used
 * https://www.youtube.com/watch?v=GVPWz-nhJhg -- Very useful tutorial on how to use Googles text-to-speech API effectively
